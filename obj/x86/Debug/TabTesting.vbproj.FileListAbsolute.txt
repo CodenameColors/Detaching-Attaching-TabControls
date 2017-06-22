@@ -1,0 +1,18 @@
+C:\Users\amorales\AppData\Local\Temporary Projects\TabTesting\bin\Debug\TabTesting.exe
+C:\Users\amorales\AppData\Local\Temporary Projects\TabTesting\bin\Debug\TabTesting.pdb
+C:\Users\amorales\AppData\Local\Temporary Projects\TabTesting\bin\Debug\TabTesting.xml
+C:\Users\amorales\AppData\Local\Temporary Projects\TabTesting\obj\x86\Debug\TabTesting.Form1.resources
+C:\Users\amorales\AppData\Local\Temporary Projects\TabTesting\obj\x86\Debug\TabTesting.Resources.resources
+C:\Users\amorales\AppData\Local\Temporary Projects\TabTesting\obj\x86\Debug\TabTesting.vbproj.GenerateResource.Cache
+C:\Users\amorales\AppData\Local\Temporary Projects\TabTesting\obj\x86\Debug\TabTesting.exe
+C:\Users\amorales\AppData\Local\Temporary Projects\TabTesting\obj\x86\Debug\TabTesting.xml
+C:\Users\amorales\AppData\Local\Temporary Projects\TabTesting\obj\x86\Debug\TabTesting.pdb
+C:\Users\amorales\documents\visual studio 2010\Projects\TabTesting\TabTesting\obj\x86\Debug\TabTesting.exe
+C:\Users\amorales\documents\visual studio 2010\Projects\TabTesting\TabTesting\obj\x86\Debug\TabTesting.xml
+C:\Users\amorales\documents\visual studio 2010\Projects\TabTesting\TabTesting\obj\x86\Debug\TabTesting.pdb
+C:\Users\amorales\documents\visual studio 2010\Projects\TabTesting\TabTesting\bin\Debug\TabTesting.exe
+C:\Users\amorales\documents\visual studio 2010\Projects\TabTesting\TabTesting\bin\Debug\TabTesting.pdb
+C:\Users\amorales\documents\visual studio 2010\Projects\TabTesting\TabTesting\bin\Debug\TabTesting.xml
+C:\Users\amorales\documents\visual studio 2010\Projects\TabTesting\TabTesting\obj\x86\Debug\TabTesting.Form1.resources
+C:\Users\amorales\documents\visual studio 2010\Projects\TabTesting\TabTesting\obj\x86\Debug\TabTesting.Resources.resources
+C:\Users\amorales\documents\visual studio 2010\Projects\TabTesting\TabTesting\obj\x86\Debug\TabTesting.vbproj.GenerateResource.Cache
