@@ -22,9 +22,9 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-    Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-    Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-    Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+    Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+    Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+    Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
     Me.ShapeContainer1 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer()
     Me.LineShape1 = New Microsoft.VisualBasic.PowerPacks.LineShape()
     Me.TabControl1 = New System.Windows.Forms.TabControl()
@@ -158,7 +158,7 @@ Partial Class Form1
     Me.TabPage2.Location = New System.Drawing.Point(4, 22)
     Me.TabPage2.Name = "TabPage2"
     Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-    Me.TabPage2.Size = New System.Drawing.Size(770, 466)
+    Me.TabPage2.Size = New System.Drawing.Size(1017, 754)
     Me.TabPage2.TabIndex = 1
     Me.TabPage2.Text = "TabPage2"
     Me.TabPage2.UseVisualStyleBackColor = True
@@ -196,7 +196,7 @@ Partial Class Form1
     Me.TabPage3.Location = New System.Drawing.Point(4, 22)
     Me.TabPage3.Name = "TabPage3"
     Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-    Me.TabPage3.Size = New System.Drawing.Size(770, 466)
+    Me.TabPage3.Size = New System.Drawing.Size(1017, 754)
     Me.TabPage3.TabIndex = 2
     Me.TabPage3.Text = "TabPage3"
     Me.TabPage3.UseVisualStyleBackColor = True
@@ -226,23 +226,23 @@ Partial Class Form1
     Me.TabPage4.Location = New System.Drawing.Point(4, 22)
     Me.TabPage4.Name = "TabPage4"
     Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-    Me.TabPage4.Size = New System.Drawing.Size(770, 466)
+    Me.TabPage4.Size = New System.Drawing.Size(1017, 754)
     Me.TabPage4.TabIndex = 3
     Me.TabPage4.Text = "TabPage4"
     Me.TabPage4.UseVisualStyleBackColor = True
     '
     'Chart1
     '
-    ChartArea2.Name = "ChartArea1"
-    Me.Chart1.ChartAreas.Add(ChartArea2)
-    Legend2.Name = "Legend1"
-    Me.Chart1.Legends.Add(Legend2)
+    ChartArea1.Name = "ChartArea1"
+    Me.Chart1.ChartAreas.Add(ChartArea1)
+    Legend1.Name = "Legend1"
+    Me.Chart1.Legends.Add(Legend1)
     Me.Chart1.Location = New System.Drawing.Point(24, 120)
     Me.Chart1.Name = "Chart1"
-    Series2.ChartArea = "ChartArea1"
-    Series2.Legend = "Legend1"
-    Series2.Name = "Series1"
-    Me.Chart1.Series.Add(Series2)
+    Series1.ChartArea = "ChartArea1"
+    Series1.Legend = "Legend1"
+    Series1.Name = "Series1"
+    Me.Chart1.Series.Add(Series1)
     Me.Chart1.Size = New System.Drawing.Size(300, 300)
     Me.Chart1.TabIndex = 1
     Me.Chart1.Text = "Chart1"
@@ -260,7 +260,7 @@ Partial Class Form1
     Me.TabPage5.Location = New System.Drawing.Point(4, 22)
     Me.TabPage5.Name = "TabPage5"
     Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-    Me.TabPage5.Size = New System.Drawing.Size(770, 466)
+    Me.TabPage5.Size = New System.Drawing.Size(1017, 754)
     Me.TabPage5.TabIndex = 4
     Me.TabPage5.Text = "TabPage5"
     Me.TabPage5.UseVisualStyleBackColor = True
@@ -271,7 +271,7 @@ Partial Class Form1
     Me.ShapeContainer2.Margin = New System.Windows.Forms.Padding(0)
     Me.ShapeContainer2.Name = "ShapeContainer2"
     Me.ShapeContainer2.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.RectangleShape1, Me.OvalShape1})
-    Me.ShapeContainer2.Size = New System.Drawing.Size(764, 460)
+    Me.ShapeContainer2.Size = New System.Drawing.Size(1011, 748)
     Me.ShapeContainer2.TabIndex = 0
     Me.ShapeContainer2.TabStop = False
     '
@@ -295,7 +295,7 @@ Partial Class Form1
     Me.TabPage6.Location = New System.Drawing.Point(4, 22)
     Me.TabPage6.Name = "TabPage6"
     Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-    Me.TabPage6.Size = New System.Drawing.Size(770, 466)
+    Me.TabPage6.Size = New System.Drawing.Size(1017, 754)
     Me.TabPage6.TabIndex = 5
     Me.TabPage6.Text = "TabPage6"
     Me.TabPage6.UseVisualStyleBackColor = True

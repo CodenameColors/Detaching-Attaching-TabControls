@@ -94,13 +94,14 @@
         AddHandler CreatedWindows(CreatedWindows.Count - 1).GiveFeedback, AddressOf TabControl1_GiveFeedback
         AddHandler CreatedWindows(CreatedWindows.Count - 1).QueryContinueDrag, AddressOf TabControl1_QueryContinueDrag
         AddHandler CreatedWindows(CreatedWindows.Count - 1).MouseEnter, AddressOf TabControl1_MouseEnter
+        AddHandler CreatedWindows(CreatedWindows.Count - 1).MouseMove, AddressOf TabControl1_MouseMove_1
 
         'add the new tab control to the new form
         CreatedForms(CreatedForms.Count - 1).Controls.Add(CreatedWindows(CreatedWindows.Count - 1))
         CreatedForms(CreatedForms.Count - 1).Show()
 
         Me.Cursor = Cursors.Default
-        bMouseDown = True
+        bMouseDown = False
       End If
 
       'a different button was pressed so about the drag
@@ -114,7 +115,7 @@
   'will keep track of the users mos pos when the click within the tabs
   Private Sub TabControl1_MouseDown(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles TabControl1.MouseDown
 
-
+    System.Windows.Forms.Application.DoEvents()
 
     If e.Button = Windows.Forms.MouseButtons.Left Then
       BeginningMPos(1) = e.X
@@ -133,6 +134,7 @@
       'check to see if the user moved their mouse
       If (e.X - BeginningMPos(1)) + (e.Y - BeginningMPos(2)) = 0 Then
         'if they haven't moved the mouse, don't apply the drag logic
+        bMouseDown = False
         Return
 
         'user has moved mouse so apply drag logic
@@ -142,7 +144,7 @@
     End If
     'delete target to avoid tab attaches that shouldn't happen
     CurrentDragTarget = New TabControl
-    bMouseDown = False
+
   End Sub
 
   Private Sub Form1_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
@@ -161,8 +163,16 @@
 
   End Sub
 
-  
+
   Private Sub TabControl1_MouseMove(sender As System.Object, e As System.Windows.Forms.MouseEventArgs)
 
+  End Sub
+
+  Private Sub TabControl1_MouseMove_1(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles TabControl1.MouseMove
+    For i = 0 To CreatedWindows.Count - 1
+      If CreatedWindows(i).ClientRectangle.Contains(PointToClient(e.Location)) And bMouseDown Then
+        Console.WriteLine("Inside and held down mouse")
+      End If
+    Next
   End Sub
 End Class
