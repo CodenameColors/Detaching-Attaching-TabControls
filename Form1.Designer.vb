@@ -85,17 +85,17 @@ Partial Class Form1
     Me.ShapeContainer1.Margin = New System.Windows.Forms.Padding(0)
     Me.ShapeContainer1.Name = "ShapeContainer1"
     Me.ShapeContainer1.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.LineShape1})
-    Me.ShapeContainer1.Size = New System.Drawing.Size(1306, 804)
+    Me.ShapeContainer1.Size = New System.Drawing.Size(1011, 542)
     Me.ShapeContainer1.TabIndex = 0
     Me.ShapeContainer1.TabStop = False
     '
     'LineShape1
     '
     Me.LineShape1.Name = "LineShape1"
-    Me.LineShape1.X1 = 261
-    Me.LineShape1.X2 = 261
-    Me.LineShape1.Y1 = 4
-    Me.LineShape1.Y2 = 802
+    Me.LineShape1.X1 = 255
+    Me.LineShape1.X2 = 255
+    Me.LineShape1.Y1 = 5
+    Me.LineShape1.Y2 = 530
     '
     'TabControl1
     '
@@ -108,7 +108,7 @@ Partial Class Form1
     Me.TabControl1.Location = New System.Drawing.Point(269, 12)
     Me.TabControl1.Name = "TabControl1"
     Me.TabControl1.SelectedIndex = 0
-    Me.TabControl1.Size = New System.Drawing.Size(1025, 780)
+    Me.TabControl1.Size = New System.Drawing.Size(730, 497)
     Me.TabControl1.TabIndex = 1
     '
     'TabPage1
@@ -119,7 +119,7 @@ Partial Class Form1
     Me.TabPage1.Location = New System.Drawing.Point(4, 22)
     Me.TabPage1.Name = "TabPage1"
     Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-    Me.TabPage1.Size = New System.Drawing.Size(1017, 754)
+    Me.TabPage1.Size = New System.Drawing.Size(722, 471)
     Me.TabPage1.TabIndex = 0
     Me.TabPage1.Text = "TabPage1"
     Me.TabPage1.UseVisualStyleBackColor = True
@@ -453,7 +453,7 @@ Partial Class Form1
     '
     'Button4
     '
-    Me.Button4.Location = New System.Drawing.Point(89, 765)
+    Me.Button4.Location = New System.Drawing.Point(94, 508)
     Me.Button4.Name = "Button4"
     Me.Button4.Size = New System.Drawing.Size(75, 23)
     Me.Button4.TabIndex = 19
@@ -464,7 +464,7 @@ Partial Class Form1
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-    Me.ClientSize = New System.Drawing.Size(1306, 804)
+    Me.ClientSize = New System.Drawing.Size(1011, 542)
     Me.Controls.Add(Me.Button4)
     Me.Controls.Add(Me.Button3)
     Me.Controls.Add(Me.Label5)
