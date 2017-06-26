@@ -22,9 +22,9 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-    Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-    Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-    Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+    Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+    Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+    Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
     Me.ShapeContainer1 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer()
     Me.LineShape1 = New Microsoft.VisualBasic.PowerPacks.LineShape()
     Me.TabControl1 = New System.Windows.Forms.TabControl()
@@ -233,16 +233,16 @@ Partial Class Form1
     '
     'Chart1
     '
-    ChartArea1.Name = "ChartArea1"
-    Me.Chart1.ChartAreas.Add(ChartArea1)
-    Legend1.Name = "Legend1"
-    Me.Chart1.Legends.Add(Legend1)
+    ChartArea3.Name = "ChartArea1"
+    Me.Chart1.ChartAreas.Add(ChartArea3)
+    Legend3.Name = "Legend1"
+    Me.Chart1.Legends.Add(Legend3)
     Me.Chart1.Location = New System.Drawing.Point(24, 120)
     Me.Chart1.Name = "Chart1"
-    Series1.ChartArea = "ChartArea1"
-    Series1.Legend = "Legend1"
-    Series1.Name = "Series1"
-    Me.Chart1.Series.Add(Series1)
+    Series3.ChartArea = "ChartArea1"
+    Series3.Legend = "Legend1"
+    Series3.Name = "Series1"
+    Me.Chart1.Series.Add(Series3)
     Me.Chart1.Size = New System.Drawing.Size(300, 300)
     Me.Chart1.TabIndex = 1
     Me.Chart1.Text = "Chart1"

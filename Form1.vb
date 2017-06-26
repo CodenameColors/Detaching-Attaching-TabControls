@@ -2,16 +2,10 @@
 
   'Array of forms that have been dragged off. keeps track, and allows functionaity within the code.
   Dim CreatedForms As New List(Of Form)
-
   Dim CreatedWindows As New List(Of TabControl)
-
-  Dim BeginningMPos(2) As Integer
-  Dim EndMPos(2) As Integer
 
   Dim CurrentDragTarget As TabControl
   Dim CurrentTab As TabControl
-
-  Dim bMouseDown As Boolean
 
   Private Sub TabControl1_GiveFeedback(sender As System.Object, e As System.Windows.Forms.GiveFeedbackEventArgs) Handles TabControl1.GiveFeedback
     e.UseDefaultCursors = False
@@ -28,9 +22,10 @@
       'Check to see if the mouse is inside a created tab control  when mouse up occurs
       For i = 0 To CreatedWindows.Count - 1
         If CreatedWindows(i).RectangleToScreen(CreatedWindows(i).ClientRectangle).Contains(New Point(Cursor.Position.X, Cursor.Position.Y)) And Not CurrentTab.Equals(CreatedWindows(i)) Then
-          'there is another tab control below the mouse. SO dock to that one.
-
+          'there is another tab control below the mouse. SO dock to that one
           CreatedWindows(i).TabPages.Add(CurrentTab.SelectedTab)
+
+          'if there are no more tabs after the tab transfer close the form and remove the tab from the createdwindows array to avoid future errors
           If CurrentTab.TabPages.Count = 0 Then
             CurrentTab.FindForm().Close()
             CreatedWindows.Remove(CurrentTab)
@@ -46,6 +41,11 @@
       'Next check if the user is dragging out to create a new tab, make sure they have more than one tab, then create a new window and transfer the tab
       For i = 0 To CreatedWindows.Count - 1
         If Not (CreatedWindows(i).RectangleToScreen(CreatedWindows(i).ClientRectangle).Contains(New Point(Cursor.Position.X, Cursor.Position.Y))) And CurrentTab.TabPages.Count > 1 Then
+
+          'if valid number of tabs is found but is trying to drag onto its self then don't allow drag logic
+          If Not CurrentTab.Equals(CreatedWindows(i)) Then
+            Return
+          End If
 
           CreatedForms.Add(New Form)
 
@@ -68,7 +68,6 @@
           'set up the event delegates for the new tab/window created
           CreatedWindows(CreatedWindows.Count - 1).Name = "NewWindow" + CreatedWindows.Count.ToString()
           AddHandler CreatedWindows(CreatedWindows.Count - 1).MouseDown, AddressOf TabControl1_MouseDown
-          AddHandler CreatedWindows(CreatedWindows.Count - 1).MouseUp, AddressOf TabControl1_MouseUp
           AddHandler CreatedWindows(CreatedWindows.Count - 1).GiveFeedback, AddressOf TabControl1_GiveFeedback
           AddHandler CreatedWindows(CreatedWindows.Count - 1).QueryContinueDrag, AddressOf TabControl1_QueryContinueDrag
 
@@ -77,7 +76,6 @@
           CreatedForms(CreatedForms.Count - 1).Show()
 
           Me.Cursor = Cursors.Default
-          bMouseDown = False
           Return
 
         End If
@@ -93,18 +91,11 @@
   Private Sub TabControl1_MouseDown(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles TabControl1.MouseDown
 
     If e.Button = Windows.Forms.MouseButtons.Left Then
-      BeginningMPos(1) = Cursor.Position.X
-      BeginningMPos(2) = Cursor.Position.Y
 
       CurrentTab = DirectCast(sender, System.Windows.Forms.TabControl)
       TabControl1.DoDragDrop(sender, DragDropEffects.None)
     End If
-    bMouseDown = True
     'Capture = True
-  End Sub
-
-  Private Sub TabControl1_MouseUp(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles TabControl1.MouseUp
-
   End Sub
 
   Private Sub Form1_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
@@ -115,10 +106,6 @@
 
     CreatedWindows.Add(TabControl1)
     CreatedForms.Add(Me)
-
-  End Sub
-
-  Private Sub Form1_DragLeave(sender As System.Object, e As System.EventArgs) Handles MyBase.DragLeave
 
   End Sub
 End Class
