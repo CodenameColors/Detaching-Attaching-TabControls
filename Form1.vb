@@ -13,6 +13,27 @@
 
   Dim bMouseDown As Boolean
 
+  Private Declare Sub mouse_event Lib "user32.dll" (ByVal dwFlags As Integer, ByVal dx As Integer, ByVal dy As Integer, ByVal cButtons As Integer, ByVal dwExtraInfo As IntPtr)
+  Private Sub PerformMouseClick(ByVal LClick_RClick_DClick As String)
+    Const MOUSEEVENTF_LEFTDOWN As Integer = 2
+    Const MOUSEEVENTF_LEFTUP As Integer = 4
+    Const MOUSEEVENTF_RIGHTDOWN As Integer = 6
+    Const MOUSEEVENTF_RIGHTUP As Integer = 8
+    If LClick_RClick_DClick = "RClick" Then
+      mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, IntPtr.Zero)
+      mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, IntPtr.Zero)
+    ElseIf LClick_RClick_DClick = "LClick" Then
+      mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, IntPtr.Zero)
+      mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, IntPtr.Zero)
+    ElseIf LClick_RClick_DClick = "DClick" Then
+      mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, IntPtr.Zero)
+      mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, IntPtr.Zero)
+      mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, IntPtr.Zero)
+      mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, IntPtr.Zero)
+    End If
+  End Sub
+
+
   Private Sub TabControl1_GiveFeedback(sender As System.Object, e As System.Windows.Forms.GiveFeedbackEventArgs) Handles TabControl1.GiveFeedback
     e.UseDefaultCursors = False
   End Sub
@@ -57,6 +78,10 @@
       Return
     End If
 
+    If (Cursor.Position.X - BeginningMPos(1)) + (Cursor.Position.Y - BeginningMPos(2)) = 0 Then
+      e.Action = DragAction.Cancel
+      Return
+    End If
 
     If Control.MouseButtons <> MouseButtons.Left Then
       e.Action = DragAction.Cancel
@@ -113,14 +138,14 @@
   'will keep track of the users mos pos when the click within the tabs
   Private Sub TabControl1_MouseDown(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles TabControl1.MouseDown
 
-    System.Windows.Forms.Application.DoEvents()
+    'System.Windows.Forms.Application.DoEvents()
 
     If e.Button = Windows.Forms.MouseButtons.Left Then
-      BeginningMPos(1) = e.X
-      BeginningMPos(2) = e.Y
+      BeginningMPos(1) = Cursor.Position.X
+      BeginningMPos(2) = Cursor.Position.Y
 
       CurrentTab = DirectCast(sender, System.Windows.Forms.TabControl)
-      TabControl1.DoDragDrop(sender, DragDropEffects.Move)
+      TabControl1.DoDragDrop(sender, DragDropEffects.None)
     End If
     bMouseDown = True
     'Capture = True
@@ -130,22 +155,16 @@
 
     If e.Button = Windows.Forms.MouseButtons.Left Then
 
-      If IsInsideTab(e) Then
-
-      Else
-
-      End If
-
       'check to see if the user moved their mouse
       If (e.X - BeginningMPos(1)) + (e.Y - BeginningMPos(2)) = 0 Then
-        'if they haven't moved the mouse, don't apply the drag logic
+        'if they haven't moved the mouse, don't apply the drag logic)
         bMouseDown = False
         Return
       Else
         'if the there is a tab to drag into then add current tab to the target tab
         If IsInsideTab(e) Then
           CurrentDragTarget = GetTargetTab(e)
-          TabControl1.DoDragDrop(sender, DragDropEffects.Move)
+          'TabControl1.DoDragDrop(sender, DragDropEffects.Move)
         Else
           'if not then create a new form and fill that with the current tab
           CurrentDragTarget = New TabControl
@@ -155,6 +174,7 @@
     End If
     'delete target to avoid tab attaches that shouldn't happen
     CurrentDragTarget = New TabControl
+    CurrentTab = New TabControl
 
 
   End Sub
