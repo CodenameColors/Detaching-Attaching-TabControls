@@ -31,8 +31,6 @@
     End If
   End Sub
 
-
-
   Private Function AddTabToControl(TabToAdd As TabControl, TabControlTarget As TabControl)
 
     'check to see if the target is the current tab
@@ -122,28 +120,42 @@
       BeginningMPos(2) = e.Y
 
       CurrentTab = DirectCast(sender, System.Windows.Forms.TabControl)
+      TabControl1.DoDragDrop(sender, DragDropEffects.Move)
     End If
     bMouseDown = True
     'Capture = True
   End Sub
 
   Private Sub TabControl1_MouseUp(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles TabControl1.MouseUp
-    Application.DoEvents()
+
     If e.Button = Windows.Forms.MouseButtons.Left Then
+
+      If IsInsideTab(e) Then
+
+      Else
+
+      End If
 
       'check to see if the user moved their mouse
       If (e.X - BeginningMPos(1)) + (e.Y - BeginningMPos(2)) = 0 Then
         'if they haven't moved the mouse, don't apply the drag logic
         bMouseDown = False
         Return
-
-        'user has moved mouse so apply drag logic
       Else
-        TabControl1.DoDragDrop(sender, DragDropEffects.Move)
+        'if the there is a tab to drag into then add current tab to the target tab
+        If IsInsideTab(e) Then
+          CurrentDragTarget = GetTargetTab(e)
+          TabControl1.DoDragDrop(sender, DragDropEffects.Move)
+        Else
+          'if not then create a new form and fill that with the current tab
+          CurrentDragTarget = New TabControl
+          'TabControl1.DoDragDrop(sender, DragDropEffects.Move)
+        End If
       End If
     End If
     'delete target to avoid tab attaches that shouldn't happen
     CurrentDragTarget = New TabControl
+
 
   End Sub
 
@@ -155,19 +167,6 @@
 
   End Sub
 
-  Private Sub TabControl1_DragEnter(sender As System.Object, e As System.Windows.Forms.DragEventArgs)
-    CurrentDragTarget = New TabControl
-  End Sub
-
-  Private Sub TabControl1_DragOver(sender As System.Object, e As System.Windows.Forms.DragEventArgs)
-
-  End Sub
-
-
-  Private Sub TabControl1_MouseMove(sender As System.Object, e As System.Windows.Forms.MouseEventArgs)
-
-  End Sub
-
   Private Sub TabControl1_MouseMove_1(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles TabControl1.MouseMove
     For i = 0 To CreatedWindows.Count - 1
       If CreatedWindows(i).ClientRectangle.Contains(PointToClient(e.Location)) And bMouseDown Then
@@ -175,4 +174,25 @@
       End If
     Next
   End Sub
+
+  'Checks to see if the user is moused over a tab control
+  'Returns the tabcontrol if yes. ; returns nothing if no
+  Private Function IsInsideTab(e As System.Windows.Forms.MouseEventArgs) As Boolean
+    For i = 0 To CreatedWindows.Count - 1
+      If CreatedWindows(i).ClientRectangle.Contains(PointToClient(e.Location)) And bMouseDown Then
+        Return True
+      End If
+    Next
+    Return False
+  End Function
+
+  Private Function GetTargetTab(e As System.Windows.Forms.MouseEventArgs) As TabControl
+    For i = 0 To CreatedWindows.Count - 1
+      If CreatedWindows(i).ClientRectangle.Contains(PointToClient(e.Location)) And bMouseDown Then
+        Return CreatedWindows(i)
+      End If
+    Next
+    Return New TabControl
+  End Function
 End Class
+
