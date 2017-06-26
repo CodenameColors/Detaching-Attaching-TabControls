@@ -40,16 +40,16 @@
 
   Private Sub TabControl1_MouseEnter(sender As System.Object, e As System.EventArgs) Handles TabControl1.MouseEnter
     'check to see if the user has a beginning drag target
-    If CurrentTab.TabCount >= 1 And bMouseDown Then
-      CurrentDragTarget = sender
-      AddTabToControl(CurrentTab, sender)
+    'If CurrentTab.TabCount >= 1 And bMouseDown Then
+    'CurrentDragTarget = sender
+    ' AddTabToControl(CurrentTab, sender)
 
-      CurrentDragTarget = New TabControl
-      CurrentTab = New TabControl
-      bMouseDown = False
+    'CurrentDragTarget = New TabControl
+    'CurrentTab = New TabControl
+    'bMouseDown = False
 
 
-    End If
+    'End If
   End Sub
 
   Private Function AddTabToControl(TabToAdd As TabControl, TabControlTarget As TabControl)
@@ -70,64 +70,69 @@
 
   Private Sub TabControl1_QueryContinueDrag(sender As System.Object, e As System.Windows.Forms.QueryContinueDragEventArgs) Handles TabControl1.QueryContinueDrag
 
-    Application.DoEvents()
-
-    'don't let the user drag out a tab if its the last one
-    'UNLESS!!! the user click and drags it back in to a tab control
-    If CurrentTab.TabCount = 1 Then
-      Return
-    End If
-
-    If (Cursor.Position.X - BeginningMPos(1)) + (Cursor.Position.Y - BeginningMPos(2)) = 0 Then
-      e.Action = DragAction.Cancel
-      Return
-    End If
+    'Application.DoEvents()
+    Console.WriteLine(Cursor.Position.X.ToString())
 
     If Control.MouseButtons <> MouseButtons.Left Then
       e.Action = DragAction.Cancel
 
-      'CHECK TO SEE IF THE USER IS DRAGGING TO AN EXISTING FORM
-      If CurrentDragTarget.TabCount > 0 Then
+      'Check to see if the mouse is inside a created tab control  when mouse up occurs
+      For i = 0 To CreatedWindows.Count - 1
+        If CreatedWindows(i).RectangleToScreen(CreatedWindows(i).ClientRectangle).Contains(New Point(Cursor.Position.X, Cursor.Position.Y)) Then
+          'there is another tab control below the mouse. SO dock to that one.
 
-        'ADD THE TAB DOCKING LOGIC
+          CreatedWindows(i).TabPages.Add(CurrentTab.SelectedTab)
+          If CurrentTab.TabPages.Count = 0 Then
+            CurrentTab.FindForm().Close()
+            CreatedWindows.Remove(CurrentTab)
+            Return
+          End If
+          Me.Cursor = Cursors.Default
+          Return
+        Else
 
-        'the user is trying to make a new tab window. so do that
-      Else
+          'Next check if the user is dragging out to create a new tab, make sure they have more than one tab, then create a new window and transfer the tab
+          If Not (CreatedWindows(i).RectangleToScreen(CreatedWindows(i).ClientRectangle).Contains(New Point(Cursor.Position.X, Cursor.Position.Y))) And CurrentTab.TabPages.Count > 1 Then
 
-        CreatedForms.Add(New Form)
+            CreatedForms.Add(New Form)
 
-        'set the form size and position
-        CreatedForms(CreatedForms.Count - 1).Size = TabControl1.Size
-        CreatedForms(CreatedForms.Count - 1).StartPosition = FormStartPosition.Manual
-        CreatedForms(CreatedForms.Count - 1).Location = MousePosition
-        CreatedForms(CreatedForms.Count - 1).Name = "NewForm" + CreatedForms.Count.ToString()
+            'set the form size and position
+            CreatedForms(CreatedForms.Count - 1).Size = TabControl1.Size
+            CreatedForms(CreatedForms.Count - 1).StartPosition = FormStartPosition.Manual
+            CreatedForms(CreatedForms.Count - 1).Location = MousePosition
+            CreatedForms(CreatedForms.Count - 1).Name = "NewForm" + CreatedForms.Count.ToString()
 
-        'create a new tab control and fill it with previous the previous tab
-        CreatedWindows.Add(New TabControl)
-        CreatedWindows(CreatedWindows.Count - 1).Dock = DockStyle.Fill
-        CreatedWindows(CreatedWindows.Count - 1).TabPages.Add(CurrentTab.SelectedTab)
+            'create a new tab control and fill it with previous the previous tab
+            Dim TabTemp As New TabControl
+            TabTemp.Dock = DockStyle.Fill
+            TabTemp.TabPages.Add(CurrentTab.SelectedTab)
 
-        'DEBUGING ONLY. TESTING DRAG TO OTHER TABS LOGIC ERASE LATER
-        'CreatedWindows(CreatedWindows.Count - 1).TabPages.Add(New TabPage)
+            CreatedWindows.Add(TabTemp)
 
-        'set up the event delegates for the new tab/window created
-        CreatedWindows(CreatedWindows.Count - 1).Name = "NewWindow" + CreatedWindows.Count.ToString()
-        AddHandler CreatedWindows(CreatedWindows.Count - 1).MouseDown, AddressOf TabControl1_MouseDown
-        AddHandler CreatedWindows(CreatedWindows.Count - 1).MouseUp, AddressOf TabControl1_MouseUp
-        AddHandler CreatedWindows(CreatedWindows.Count - 1).GiveFeedback, AddressOf TabControl1_GiveFeedback
-        AddHandler CreatedWindows(CreatedWindows.Count - 1).QueryContinueDrag, AddressOf TabControl1_QueryContinueDrag
-        AddHandler CreatedWindows(CreatedWindows.Count - 1).MouseEnter, AddressOf TabControl1_MouseEnter
-        AddHandler CreatedWindows(CreatedWindows.Count - 1).MouseMove, AddressOf TabControl1_MouseMove_1
+            'DEBUGING ONLY. TESTING DRAG TO OTHER TABS LOGIC ERASE LATER
+            'CreatedWindows(CreatedWindows.Count - 1).TabPages.Add(New TabPage)
 
-        'add the new tab control to the new form
-        CreatedForms(CreatedForms.Count - 1).Controls.Add(CreatedWindows(CreatedWindows.Count - 1))
-        CreatedForms(CreatedForms.Count - 1).Show()
+            'set up the event delegates for the new tab/window created
+            CreatedWindows(CreatedWindows.Count - 1).Name = "NewWindow" + CreatedWindows.Count.ToString()
+            AddHandler CreatedWindows(CreatedWindows.Count - 1).MouseDown, AddressOf TabControl1_MouseDown
+            AddHandler CreatedWindows(CreatedWindows.Count - 1).MouseUp, AddressOf TabControl1_MouseUp
+            AddHandler CreatedWindows(CreatedWindows.Count - 1).GiveFeedback, AddressOf TabControl1_GiveFeedback
+            AddHandler CreatedWindows(CreatedWindows.Count - 1).QueryContinueDrag, AddressOf TabControl1_QueryContinueDrag
+            AddHandler CreatedWindows(CreatedWindows.Count - 1).MouseEnter, AddressOf TabControl1_MouseEnter
+            AddHandler CreatedWindows(CreatedWindows.Count - 1).MouseMove, AddressOf TabControl1_MouseMove_1
 
-        Me.Cursor = Cursors.Default
-        bMouseDown = False
-      End If
+            'add the new tab control to the new form
+            CreatedForms(CreatedForms.Count - 1).Controls.Add(CreatedWindows(CreatedWindows.Count - 1))
+            CreatedForms(CreatedForms.Count - 1).Show()
 
-      'a different button was pressed so about the drag
+            Me.Cursor = Cursors.Default
+            bMouseDown = False
+            Return
+
+          End If
+
+        End If
+      Next
     Else
       e.Action = DragAction.Continue
       Me.Cursor = Cursors.Help
@@ -137,8 +142,6 @@
 
   'will keep track of the users mos pos when the click within the tabs
   Private Sub TabControl1_MouseDown(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles TabControl1.MouseDown
-
-    'System.Windows.Forms.Application.DoEvents()
 
     If e.Button = Windows.Forms.MouseButtons.Left Then
       BeginningMPos(1) = Cursor.Position.X
@@ -153,30 +156,6 @@
 
   Private Sub TabControl1_MouseUp(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles TabControl1.MouseUp
 
-    If e.Button = Windows.Forms.MouseButtons.Left Then
-
-      'check to see if the user moved their mouse
-      If (e.X - BeginningMPos(1)) + (e.Y - BeginningMPos(2)) = 0 Then
-        'if they haven't moved the mouse, don't apply the drag logic)
-        bMouseDown = False
-        Return
-      Else
-        'if the there is a tab to drag into then add current tab to the target tab
-        If IsInsideTab(e) Then
-          CurrentDragTarget = GetTargetTab(e)
-          'TabControl1.DoDragDrop(sender, DragDropEffects.Move)
-        Else
-          'if not then create a new form and fill that with the current tab
-          CurrentDragTarget = New TabControl
-          'TabControl1.DoDragDrop(sender, DragDropEffects.Move)
-        End If
-      End If
-    End If
-    'delete target to avoid tab attaches that shouldn't happen
-    CurrentDragTarget = New TabControl
-    CurrentTab = New TabControl
-
-
   End Sub
 
   Private Sub Form1_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
@@ -184,6 +163,9 @@
     'Instaniate to avoid null error
     CurrentDragTarget = New TabControl
     CurrentTab = New TabControl
+
+    CreatedWindows.Add(TabControl1)
+    CreatedForms.Add(Me)
 
   End Sub
 
@@ -214,5 +196,9 @@
     Next
     Return New TabControl
   End Function
+
+  Private Sub Form1_DragLeave(sender As System.Object, e As System.EventArgs) Handles MyBase.DragLeave
+
+  End Sub
 End Class
 
