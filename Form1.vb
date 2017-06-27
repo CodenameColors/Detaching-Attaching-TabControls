@@ -15,10 +15,13 @@ Public Class Form1
   Dim CurrentDragTarget As TabControl
   Dim CurrentTab As TabControl
 
+  'occurs when dragging action is active
   Private Sub TabControl1_GiveFeedback(sender As System.Object, e As System.Windows.Forms.GiveFeedbackEventArgs) Handles TabControl1.GiveFeedback
     e.UseDefaultCursors = False
   End Sub
 
+  'While someone is dragging tab controls this will call itself. OCCURS FOR WHOLE DRAG ACTION.
+  'NEEDS A DRAG METHOD CALL OF "DoDragDrop( , )" to be considered active
   Private Sub TabControl1_QueryContinueDrag(sender As System.Object, e As System.Windows.Forms.QueryContinueDragEventArgs) Handles TabControl1.QueryContinueDrag
 
     'Application.DoEvents()
@@ -84,6 +87,7 @@ Public Class Form1
           CreatedForms(CreatedForms.Count - 1).Show()
           AddHandler CreatedForms(CreatedForms.Count - 1).FormClosing, AddressOf FormClose
 
+          'Set cursor back to the default to let the user know the drag is done
           Me.Cursor = Cursors.Default
           Return
 
@@ -99,8 +103,9 @@ Public Class Form1
   'will keep track of the users mos pos when the click within the tabs
   Private Sub TabControl1_MouseDown(sender As System.Object, e As System.Windows.Forms.MouseEventArgs) Handles TabControl1.MouseDown
 
+    'check to see if the user has pressed the mouse button. this happens ONCE
     If e.Button = Windows.Forms.MouseButtons.Left Then
-
+      'set current tab for dragging action method. as well as call dragging action method.
       CurrentTab = DirectCast(sender, System.Windows.Forms.TabControl)
       TabControl1.DoDragDrop(sender, DragDropEffects.None)
     End If
@@ -113,6 +118,7 @@ Public Class Form1
     CurrentDragTarget = New TabControl
     CurrentTab = New TabControl
 
+    'Add the main form, and main tab control to their arrays. This allows dragging to be done on them as well.
     CreatedWindows.Add(TabControl1)
     CreatedForms.Add(Me)
 
@@ -121,11 +127,13 @@ Public Class Form1
   'happens before closing a form. Moves the currents forms tabs back to the main tab control.
   Private Sub FormClose(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
 
+    'if the user is trying to close the main form let them. no other logic needed right now
+    'POSSIBLY ask the user if they want to save their settings?
     If sender.Equals(Me) Then
       Return
 
     Else
-
+      'check each control inside the current form to see if a tab control exists.
       For Each CurrentControl As System.Windows.Forms.TabControl In DirectCast(sender, Form).Controls
         If TryCast(CurrentControl, TabControl) Is Nothing Then
           'it failed...don't do anything
@@ -133,6 +141,8 @@ Public Class Form1
           'a tab control was found so transfer the tabs to main tab control
           For Each CurrentTab As TabPage In CurrentControl.TabPages
 
+            'Remove tabs and add them to main control until the final tab is left. 
+            'Remove move the final tab like before but also clean up the Tab array to avoid null errors
             If CurrentControl.TabPages.Count > 1 Then
               TabControl1.TabPages.Add(CurrentTab)
             Else
