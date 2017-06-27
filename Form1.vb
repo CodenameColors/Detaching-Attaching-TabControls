@@ -1,4 +1,12 @@
-﻿Public Class Form1
+﻿'Antonio Morales 6/27/17
+'
+'TAB TESTING:
+'Creation of tabs by dragging them out of their current toolbar dock
+'As well as being able to dock them to already existing tabs
+'When the external tabs have a close event issued put them back to the main tab bar
+'Moves all the internal tab data to the target of its choice as well
+
+Public Class Form1
 
   'Array of forms that have been dragged off. keeps track, and allows functionaity within the code.
   Dim CreatedForms As New List(Of Form)
@@ -74,6 +82,7 @@
           'add the new tab control to the new form
           CreatedForms(CreatedForms.Count - 1).Controls.Add(CreatedWindows(CreatedWindows.Count - 1))
           CreatedForms(CreatedForms.Count - 1).Show()
+          AddHandler CreatedForms(CreatedForms.Count - 1).FormClosing, AddressOf FormClose
 
           Me.Cursor = Cursors.Default
           Return
@@ -108,5 +117,37 @@
     CreatedForms.Add(Me)
 
   End Sub
+
+  'happens before closing a form. Moves the currents forms tabs back to the main tab control.
+  Private Sub FormClose(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+
+    If sender.Equals(Me) Then
+      Return
+
+    Else
+
+      For Each CurrentControl As System.Windows.Forms.TabControl In DirectCast(sender, Form).Controls
+        If TryCast(CurrentControl, TabControl) Is Nothing Then
+          'it failed...don't do anything
+        Else
+          'a tab control was found so transfer the tabs to main tab control
+          For Each CurrentTab As TabPage In CurrentControl.TabPages
+
+            If CurrentControl.TabPages.Count > 1 Then
+              TabControl1.TabPages.Add(CurrentTab)
+            Else
+              TabControl1.TabPages.Add(CurrentTab)
+              CreatedWindows.Remove(CurrentControl)
+            End If
+          Next
+        End If
+      Next
+    End If
+
+    'clean up the array to avoid null errors
+    CreatedForms.Remove(DirectCast(sender, Form))
+
+  End Sub
+
 End Class
 
