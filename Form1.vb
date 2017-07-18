@@ -29,6 +29,11 @@ Public Class Form1
 
     If Control.MouseButtons <> MouseButtons.Left Then
       e.Action = DragAction.Cancel
+      
+      'if valid number of tabs is found but is trying to drag onto its self then don't allow drag logic
+      If Not CurrentTab.Equals(CreatedWindows(i)) Then
+        Return
+      End If
 
       'Check to see if the mouse is inside a created tab control  when mouse up occurs
       For i = 0 To CreatedWindows.Count - 1
