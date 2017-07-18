@@ -30,8 +30,9 @@ Public Class Form1
     If Control.MouseButtons <> MouseButtons.Left Then
       e.Action = DragAction.Cancel
       
-      'if valid number of tabs is found but is trying to drag onto its self then don't allow drag logic
-      If Not CurrentTab.Equals(CreatedWindows(i)) Then
+      'Prevents the application from closing due to the final tab drag out
+      If CurrentTab.TabPages.Count = 1 And CurrentTab.Equals(MainTab) Then
+        Me.Cursor = Cursors.Default
         Return
       End If
 
