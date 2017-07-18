@@ -31,7 +31,7 @@ Public Class Form1
       e.Action = DragAction.Cancel
       
       'Prevents the application from closing due to the final tab drag out
-      If CurrentTab.TabPages.Count = 1 And CurrentTab.Equals(MainTab) Then
+      If CurrentTab.TabPages.Count = 1 And CurrentTab.Equals(TabControl1) Then
         Me.Cursor = Cursors.Default
         Return
       End If
